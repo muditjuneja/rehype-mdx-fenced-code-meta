@@ -1,15 +1,27 @@
-# rehype-mdx-fenced-code-meta
 
 A [rehype](https://github.com/rehypejs/rehype) [MDX](https://mdxjs.com) plugin for adding metadata to code elements.
 
 ## Table of Contents
 
+- [Why](#why)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API](#api)
   - [`rehypeAddCodeMetaData`](#rehypeAddCodeMetaData)
 - [Compatibility](#compatibility)
 - [License](#license)
+
+
+## Why
+
+With the latest version of mdx-js, random props could not be fetched if they were in format below -
+
+````
+```mdx path=google.com src=no-src
+# Heading 1
+```
+````
+This was working in mdx v1. This package adds a new prop named `metaData` for the fenced code blocks of the format `path=google.com src=no-src` which can be parsed using a regex and accessed in your custom code component.
 
 ## Installation
 
@@ -57,15 +69,15 @@ import React from 'react';
 import { MDXProvider as Provider } from '@mdx-js/react';
 const components = {
   code: (props) => {
-      console.log("props", props);
-      const regex = /^(```\w+) *(path=[^ ]+)? *(src=[^ ]+)?/; // Adjust regex if needed
+    console.log("props", props);
+    const metaDataObject = props.metaData.split(' ').reduce((obj, item) => {
+        const [key, value] = item.split('=');
+        obj[key] = value;
+        return obj;
+      }, {});
 
-      // Extract path and src if possible
-      const path = match?.[2]?.split('=')[1] || null;
-      const src = match?.[3]?.split('=')[1] || null;
-
-      return <Code {...props} path={path} src={src} />;
-    },
+    return <Code {...props} path={metaDataObject.path} src={metaDataObject.src} />;
+  },
 }
 
 const MDXProvider = ({ components = components, element }) => (
