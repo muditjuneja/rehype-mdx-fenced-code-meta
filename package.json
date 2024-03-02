@@ -1,6 +1,6 @@
 {
   "name": "rehype-mdx-fenced-code-meta-support",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A rehype MDX plugin for interpreting meta data tags passed to fenced code blocks in mdx.",
   "author": "Mudit Juneja <muditjuneja@outlook.com>",
   "license": "MIT",
