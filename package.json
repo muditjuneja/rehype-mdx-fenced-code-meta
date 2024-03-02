@@ -1,0 +1,30 @@
+{
+  "name": "rehype-mdx-fenced-code-meta",
+  "version": "1.0.0",
+  "description": "A rehype MDX plugin for interpreting meta data tags passed to fenced code blocks in mdx.",
+  "author": "Mudit Juneja <muditjuneja@outlook.com>",
+  "license": "MIT",
+  "main": "./src/index.mjs",
+  "repository": "muditjuneja/rehype-mdx-fenced-code-meta",
+  "bugs": "https://github.com/muditjuneja/rehype-mdx-fenced-code-meta/issues",
+  "homepage": "https://github.com/rmuditjuneja/rehype-mdx-fenced-code-meta#readme",
+  "funding": "https://github.com/sponsors/muditjuneja",
+  "keywords": [
+    "hast",
+    "html",
+    "markdown",
+    "mdx",
+    "rehype",
+    "rehype-plugin",
+    "unified",
+    "fenced-code",
+    "fenced-code-blocks"
+  ],
+  "files": [
+    "src"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "unist-util-visit": "^5.0.0"
+  }
+}
