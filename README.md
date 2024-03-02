@@ -14,13 +14,13 @@ A [rehype](https://github.com/rehypejs/rehype) [MDX](https://mdxjs.com) plugin f
 ## Installation
 
 ```
-npm install rehype-mdx-fenced-code-meta
+npm install rehype-mdx-fenced-code-meta-support
 ```
 
 OR
 
 ```
-yarn add rehype-mdx-fenced-code-meta
+yarn add rehype-mdx-fenced-code-meta-support
 ```
 
 ## Usage
@@ -39,6 +39,9 @@ The `<code />` element now has a `metaData` prop containing the `path=google.com
 
 We are using this in gatsby with `gatsby-plugin-mdx` plugin like this:
 ```
+...
+import rehypeAddCodeMetaData from 'rehype-mdx-fenced-code-meta-support';
+...
  {
         resolve: `gatsby-plugin-mdx`,
         options: {
