@@ -13,9 +13,15 @@ A [rehype](https://github.com/rehypejs/rehype) [MDX](https://mdxjs.com) plugin f
 
 ## Installation
 
-\`\`\`sh
+```
 npm install rehype-mdx-fenced-code-meta
-\`\`\`
+```
+
+OR
+
+```
+yarn add rehype-mdx-fenced-code-meta
+```
 
 ## Usage
 
@@ -24,38 +30,50 @@ This plugin adds metadata to code elements in the MDX.
 For example, given a file named `example.mdx` with the following content:
 
 ````
-```mdx path=google.com
+```mdx path=google.com src=no-src
 # Heading 1
 ```
 ````
 
-The following script:
+The `<code />` element now has a `metaData` prop containing the `path=google.com src=no-src` of the code block.
+
+We are using this in gatsby with `gatsby-plugin-mdx` plugin like this:
+```
+ {
+        resolve: `gatsby-plugin-mdx`,
+        options: {
+          mdxOptions: {
+            rehypePlugins: [rehypeAddCodeMetaData],
+          },
+        },
+},
+```
 
 ```
-import { readFile } from 'node:fs/promises'
-import { compile } from '@mdx-js/mdx'
-import rehypeAddCodeMetaData from 'rehype-mdx-code-props'
+import React from 'react';
+import { MDXProvider as Provider } from '@mdx-js/react';
+const components = {
+  code: (props) => {
+      console.log("props", props);
+      const regex = /^(```\w+) *(path=[^ ]+)? *(src=[^ ]+)?/; // Adjust regex if needed
 
-const { value } = await compile(await readFile('example.mdx'), {
-  jsx: true,
-  rehypePlugins: [rehypeAddCodeMetaData]
-})
-console.log(value)
-```
+      // Extract path and src if possible
+      const path = match?.[2]?.split('=')[1] || null;
+      const src = match?.[3]?.split('=')[1] || null;
 
-Roughly yields:
-
-\`\`\`jsx
-export default function MDXContent(props) {
-  return (
-    <pre>
-      <code className="language-js" metaData={...}>{"console.log('Hello, world!');\n"}</code>
-    </pre>
-  )
+      return <Code {...props} path={path} src={src} />;
+    },
 }
-\`\`\`
 
-The `<code />` element now has a `metaData` prop containing the metadata of the code block.
+const MDXProvider = ({ components = components, element }) => (
+  <Provider components={{ ...components }}>
+    {element}
+  </Provider>
+);
+
+export default MDXProvider;
+
+```
 
 ## API
 
